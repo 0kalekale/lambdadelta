@@ -1,0 +1,3 @@
+#!/bin/sh 
+
+../target/lambdadelta < calcs.λδ
