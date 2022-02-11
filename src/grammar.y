@@ -25,6 +25,9 @@
 
 int yylex();
 int yyerror();
+
+#define NSYMS 20
+struct symtab symtab[NSYMS]; 
 %}
 
 %union {
@@ -72,31 +75,27 @@ expression:	expression '+' expression { $$ = $1 + $3; }
 %%
 
 struct symtab *
-symlook(s)
-char *s;
+symlook(char *s) 
 {
 	char *p;
 	struct symtab *sp;
 	
-	for(sp = symtab; sp < &symtab[NSYMS]; sp++) {
-		
+	for(sp = symtab; sp < &symtab[NSYMS]; sp++) 
+	{	
 		if(sp->name && !strcmp(sp->name, s))
-			return sp;
-		
-		
+			return sp;	
 		if(!sp->name) {
 			sp->name = strdup(s);
 			return sp;
 		}
-		
 	}
 	yyerror("Too many symbols");
 	exit(1);	
 }
+
 int
-addfunc(name, func)
-char *name;
-double (*func)();
+addfunc(char* name, 
+	double (*func)()) 
 {
 	struct symtab *sp = symlook(name);
 	sp->funcptr = func;

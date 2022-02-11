@@ -4,7 +4,7 @@
  
 TARGET = target
 SRC = src
-CFLAGS = -fcommon #TODO remove this hack 
+# CFLAGS  
 LDFLAGS = -lfl -ly -lm
 BIN = lambdadelta
 
