@@ -1,3 +1,2 @@
-* TODO project λδ 
-  - [ ] Fix include/sym.h with respect to standard C
+* TODO project λδ  
   - [ ] Make proper test units   
