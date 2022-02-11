@@ -6,10 +6,10 @@
 
 #define NSYMS 20	
 
-extern struct symtab {
+struct symtab {
 	char *name;
 	double (*funcptr)();
 	double value;
 } symtab[NSYMS];
 
-extern struct symtab *symlook();
+struct symtab *symlook();

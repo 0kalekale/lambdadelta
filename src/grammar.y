@@ -22,6 +22,9 @@
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
+
+int yylex();
+int yyerror();
 %}
 
 %union {
@@ -89,8 +92,8 @@ char *s;
 	}
 	yyerror("Too many symbols");
 	exit(1);	
-
-
+}
+int
 addfunc(name, func)
 char *name;
 double (*func)();
@@ -99,6 +102,7 @@ double (*func)();
 	sp->funcptr = func;
 }
 
+int 
 main()
 {
 	extern double sqrt(), exp(), log();

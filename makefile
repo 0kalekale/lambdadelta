@@ -11,8 +11,9 @@ BIN = lambdadelta
 build:
 	mkdir -p $(TARGET)
 	mkdir -p $(TARGET)/include
-	yacc --defines=$(TARGET)/include/grammar.h  $(SRC)/grammar.y -S $(TARGET)/grammar.c 
-	flex --outfile=$(TARGET)/scanner.c $(SRC)/scanner.l  
+	yacc --defines=$(TARGET)/include/grammar.h  $(SRC)/grammar.y -o $(TARGET)/grammar.c 
+	flex --outfile=$(TARGET)/scanner.c $(SRC)/scanner.l
+	cp include/* $(TARGET)/include  
 	$(CC) $(CFLAGS) $(TARGET)/*.c  -I$(TARGET)/include $(LDFLAGS) -o $(TARGET)/$(BIN)
 
 test:

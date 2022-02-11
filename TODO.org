@@ -1,4 +1,3 @@
-* TODO project λδ
-  - [ ] Fix compiler warnings 
-  - [ ] Fix src/sym.h with respect to standard C
+* TODO project λδ 
+  - [ ] Fix include/sym.h with respect to standard C
   - [ ] Make proper test units   
