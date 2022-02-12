@@ -1,5 +1,5 @@
 /*
-    This program contains semantics defination of λδ and the entry point of the compiler 
+    This program contains semantics defination of λδ  
     Copyright (C) 2022  0kalekale
 
     This program is free software: you can redistribute it and/or modify
@@ -17,7 +17,7 @@
 */
 
 %{
-#include "sym.h"
+#include <sym.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -102,7 +102,7 @@ addfunc(char* name,
 }
 
 int 
-main()
+parse()
 {
 	extern double sqrt(), exp(), log();
 
