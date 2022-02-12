@@ -17,14 +17,15 @@
 */
 
 %{
-#include <sym.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 #include <math.h>
 
+#include <sym.h>
+#include <error.h>
+
 int yylex();
-int yyerror();
 
 #define NSYMS 20
 struct symtab symtab[NSYMS]; 

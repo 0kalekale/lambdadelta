@@ -19,9 +19,10 @@
 %{
 #include <math.h>
 #include <grammar.h>
+
 #include <sym.h>
 %}
-
+%option yylineno
 %%
 
 "i8"		{ ;/*return T_I8*/ }

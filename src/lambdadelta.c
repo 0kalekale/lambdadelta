@@ -18,6 +18,7 @@
     Behold the sweetfish river running through my beloved hometown.
     You who seek the Golden Land, follow its path downstream in search of the key.
 */
+#include <error.h>
 
 void parse();
 
@@ -25,4 +26,5 @@ int
 main()
 {
 	parse();
+	return rc;
 }
