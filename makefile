@@ -8,15 +8,29 @@ SRC = src
 LDFLAGS = -lfl -ly -lm
 BIN = lambdadelta
 
-build:
-	mkdir -p $(TARGET)
-	mkdir -p $(TARGET)/include
-	yacc --defines=$(TARGET)/include/grammar.h  $(SRC)/grammar.y -o $(TARGET)/grammar.c 
-	flex --outfile=$(TARGET)/scanner.c $(SRC)/scanner.l
-	cp include/* $(TARGET)/include  
-	$(CC) $(CFLAGS) $(TARGET)/*.c  -I$(TARGET)/include $(LDFLAGS) -o $(TARGET)/$(BIN)
+build:	prepare parser_lexer compile link
 
+prepare:
+	@mkdir -p $(TARGET)
+	@mkdir -p $(TARGET)/include
+	@mkdir -p $(TARGET)/src 
+
+parser_lexer:
+	@echo "YACC $(SRC)/grammar.y" 
+	@yacc --defines=include/grammar.h -o $(SRC)/grammar.c $(SRC)/grammar.y
+	@echo "LEX $(SRC)/scanner.l"
+	@flex --outfile=$(SRC)/scanner.c $(SRC)/scanner.l
+
+compile:
+	@for i in $(SRC)/*.c; do echo CC $$i; done 
+	@cd $(TARGET) && $(CC)$(CFLAGS) -I../include -c ../$(SRC)/*.c    
+
+link:
+	@echo $(TARGET)/*.o
+	@cd $(TARGET) && $(CC) *.o $(LDFLAGS) -o $(BIN)
 test:
-	cd tests && ./berntestel *.λδ
+	@cd tests && ./berntestel *.λδ
+
 clean:
-	rm -rf $(TARGET)
+	@rm $(SRC)/grammar.c $(SRC)/scanner.c include/grammar.h
+	@rm -rf $(TARGET)
