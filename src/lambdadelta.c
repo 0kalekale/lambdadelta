@@ -20,7 +20,7 @@
 */
 #include <error.h>
 
-void parse();
+void parse(); // define this in some header?
 
 int 
 main()

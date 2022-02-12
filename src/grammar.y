@@ -25,7 +25,7 @@
 #include <sym.h>
 #include <error.h>
 
-int yylex();
+int yylex(); // define this in some header?
 
 #define NSYMS 20
 struct symtab symtab[NSYMS]; 
@@ -74,6 +74,8 @@ expression:	expression '+' expression { $$ = $1 + $3; }
 		}
 	;
 %%
+
+// TODO: move all these to somewhere else.
 
 struct symtab *
 symlook(char *s) 

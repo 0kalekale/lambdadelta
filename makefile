@@ -4,7 +4,7 @@
  
 TARGET = target
 SRC = src
-# CFLAGS  
+CFLAGS = -std=gnu99  
 LDFLAGS = -lfl -ly -lm
 BIN = lambdadelta
 
@@ -16,17 +16,17 @@ prepare:
 	@mkdir -p $(TARGET)/src 
 
 parser_lexer:
-	@echo "YACC $(SRC)/grammar.y" 
+	@echo "YACC 	$(SRC)/grammar.y" 
 	@yacc --defines=include/grammar.h -o $(SRC)/grammar.c $(SRC)/grammar.y
-	@echo "LEX $(SRC)/scanner.l"
+	@echo "LEX 	$(SRC)/scanner.l"
 	@flex --outfile=$(SRC)/scanner.c $(SRC)/scanner.l
 
 compile:
-	@for i in $(SRC)/*.c; do echo CC $$i; done 
-	@cd $(TARGET) && $(CC)$(CFLAGS) -I../include -c ../$(SRC)/*.c    
+	@for i in $(SRC)/*.c; do echo "CC	 $$i"; done 
+	@cd $(TARGET) && $(CC) $(CFLAGS) -I../include -c ../$(SRC)/*.c    
 
 link:
-	@echo $(TARGET)/*.o
+	@echo "BIN	" $(TARGET)/$(BIN) 
 	@cd $(TARGET) && $(CC) *.o $(LDFLAGS) -o $(BIN)
 test:
 	@cd tests && ./berntestel *.λδ
