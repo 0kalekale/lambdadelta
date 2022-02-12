@@ -19,10 +19,55 @@
 %{
 #include <math.h>
 #include <grammar.h>
-#include "sym.h"
+#include <sym.h>
 %}
 
 %%
+
+"i8"		{ ;/*return T_I8*/ }
+"i16"		{ ;/*return T_I16*/ }
+"i32"		{ ;/*return T_I32*/ }
+"i64"		{ ;/*return T_I64*/ }
+
+"u8"		{ ;/*return T_U8*/ }
+"u16"		{ ;/*return T_U16*/ }
+"u32"		{ ;/*return T_U32*/ }
+"u64"
+
+"void"	
+"bool"
+
+"return"
+
+"True"
+"False"
+
+"if"
+"else"
+
+"var"
+"const"
+
+">"
+"<"
+"=="
+"!="
+
+"+"
+"-"
+"*"
+"/"
+"^"
+
+"&&"
+"||"
+
+["].*["] 
+["].["]
+
+"\\" 
+"proc"
+
 ([0-9]+|([0-9]*\.[0-9]+)([eE][-+]?[0-9]+)?) {
 		yylval.dval = atof(yytext);
 		return NUMBER;
