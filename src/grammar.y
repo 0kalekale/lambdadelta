@@ -35,6 +35,20 @@ struct symtab symtab[NSYMS];
 	double dval;
 	struct symtab *symp;
 }
+
+%token T_I8 T_I16 T_I32 T_I64
+%token T_U8 T_U16 T_U32 T_U64
+%token T_VOID T_BOOL
+%token T_RETURN
+%token T_TRUE T_FALSE
+%token T_IF T_ELSE
+%token T_VAR T_CONST
+%token T_RIGHT_AB T_LEFT_AB T_EQUALCMP T_N_EQUALCMP
+%token T_PLUS T_MINUS T_ASTRK T_FSLASH T_EXPONENET
+%token T_BITW_OR T_BITW_AND  
+%token T_STR T_CHAR
+%token T_LAMBDA T_PROC	
+// bison mode's broken forced indentation is getting really annoying at this point 
 %token <symp> NAME
 %token <dval> NUMBER
 %left '-' '+'
@@ -76,7 +90,7 @@ expression:	expression '+' expression { $$ = $1 + $3; }
 %%
 
 // TODO: move all these to somewhere else.
-
+// update: nuke these, you wont be needing this for AST and the codegen  
 struct symtab *
 symlook(char *s) 
 {

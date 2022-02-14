@@ -1,4 +1,5 @@
 * Project λδ - Game master's logs
+- [2022-02-14]  defined some rules and keywords in the tokenizer 
 - [2022-02-12]  improved the build system, started work on tokenizer, proper error message and a proper test unit
 - [2022-02-10]  λδ: when they segfault. Initialization of project, laying down basic makefiles and project structure.  
   

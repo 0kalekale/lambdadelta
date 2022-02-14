@@ -22,52 +22,86 @@
 
 #include <sym.h>
 %}
-%option yylineno
+%option yylineno  
 %%
 
-"i8"		{ ;/*return T_I8*/ }
-"i16"		{ ;/*return T_I16*/ }
-"i32"		{ ;/*return T_I32*/ }
-"i64"		{ ;/*return T_I64*/ }
+%{
+/*
+signed int types
+*/
+%}
+"i8"		{ return T_I8; }
+"i16"		{ return T_I16; }
+"i32"		{ return T_I32; }
+"i64"		{ return T_I64; }
 
-"u8"		{ ;/*return T_U8*/ }
-"u16"		{ ;/*return T_U16*/ }
-"u32"		{ ;/*return T_U32*/ }
-"u64"
+%{
+/*
+unsigned int types
+*/
+%}
+"u8"		{ return T_U8; }
+"u16"		{ return T_U16; }
+"u32"		{ return T_U32; }
+"u64"		{ return T_U64; }
 
-"void"	
-"bool"
+%{/*
+some other types, will have more fancy things in the future 
+*/%}
+"void"		{ return T_VOID; }	
+"bool"		{ return T_BOOL; }
 
-"return"
+%{
+/*
+some commonly used keywords
+*/
+%}
+"return"	{ return T_RETURN; }
 
-"True"
-"False"
+"True"		{ return T_TRUE; }
+"False"		{ return T_FALSE; }
 
-"if"
-"else"
+"if"		{ return T_IF; }
+"else"		{ return T_ELSE; }
 
-"var"
-"const"
+"var"		{ return T_VAR; }
+"const"		{ return T_CONST; }
 
-">"
-"<"
-"=="
-"!="
+%{
+/*
+operations 
+*/
+%}
+">"		{ return T_RIGHT_AB; }
+"<"		{ return T_LEFT_AB; }
+"=="		{ return T_EQUALCMP; }
+"!="		{ return T_N_EQUALCMP; }
 
-"+"
-"-"
-"*"
-"/"
-"^"
+"+"		{ return T_PLUS; }
+"-"		{ return T_MINUS; }
+"*"		{ return T_ASTRK; }
+"/"		{ return T_FSLASH; }
+"^"		{ return T_EXPONENET; }
 
-"&&"
-"||"
+"&&"		{ return T_BITW_AND; }
+"||"		{ return T_BITW_OR; }
 
-["].*["] 
-["].["]
+%{
+/*
+["].*["] 	{ return T_STR; }
+["].["]		{ return T_CHAR; }
+TODO: remove the rules down there for strings
+*/
+%}
 
-"\\" 
-"proc"
+%{
+/*		
+lambda function and procedure keywords
+*/
+%}
+		
+"\\"		{ return T_LAMBDA; } 
+"proc"		{ return T_PROC; }
 
 ([0-9]+|([0-9]*\.[0-9]+)([eE][-+]?[0-9]+)?) {
 		yylval.dval = atof(yytext);
@@ -76,6 +110,13 @@
 
 [ \t]	;		 
 
+%{
+/*
+TODO: remove these rules, i wont be needing them for 
+the AST and codegen. 
+*/
+%}
+		
 [A-Za-z][A-Za-z0-9]*	{	
 		struct symtab *sp = symlook(yytext);
 
