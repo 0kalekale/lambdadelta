@@ -20,7 +20,6 @@
 #include <math.h>
 #include <grammar.h>
 
-#include <sym.h>
 %}
 %option yylineno  
 %%
@@ -88,11 +87,11 @@ operations
 
 %{
 /*
-["].*["] 	{ return T_STR; }
-["].["]		{ return T_CHAR; }
-TODO: remove the rules down there for strings
+chars and string literals
 */
 %}
+["].*["] 	{ return T_STR; }
+["].["]		{ return T_CHAR; }
 
 %{
 /*		
@@ -104,24 +103,13 @@ lambda function and procedure keywords
 "proc"		{ return T_PROC; }
 
 ([0-9]+|([0-9]*\.[0-9]+)([eE][-+]?[0-9]+)?) {
-		yylval.dval = atof(yytext);
-		return NUMBER;
+		return INT;
 	}
 
 [ \t]	;		 
-
-%{
-/*
-TODO: remove these rules, i wont be needing them for 
-the AST and codegen. 
-*/
-%}
-		
+	
 [A-Za-z][A-Za-z0-9]*	{	
-		struct symtab *sp = symlook(yytext);
-
-		yylval.symp = sp;
-		return NAME;
+		return IDENTIFER;
 	}
 
 "$"	{ return 0; }

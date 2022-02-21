@@ -20,11 +20,11 @@
 */
 #include <error.h>
 
-void parse(); // define this in some header?
+void yyparse(); // define this in some header?
 
 int 
 main()
 {
-	parse();
+	yyparse();
 	return rc;
 }
