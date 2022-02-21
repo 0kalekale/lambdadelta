@@ -22,19 +22,10 @@
 #include <stdlib.h>
 #include <math.h>
 
-#include <sym.h>
 #include <error.h>
 
 int yylex(); // define this in some header?
-
-#define NSYMS 20
-struct symtab symtab[NSYMS]; 
 %}
-
-%union {
-	double dval;
-	struct symtab *symp;
-}
 
 %token T_I8 T_I16 T_I32 T_I64
 %token T_U8 T_U16 T_U32 T_U64
@@ -49,82 +40,12 @@ struct symtab symtab[NSYMS];
 %token T_STR T_CHAR
 %token T_LAMBDA T_PROC	
 // bison mode's broken forced indentation is getting really annoying at this point 
-%token <symp> NAME
-%token <dval> NUMBER
+%token INT IDENTIFER 
 %left '-' '+'
 %left '*' '/'
 %nonassoc UMINUS
 
-%type <dval> expression
+// TOOD: grammer rules
 %%
-statement_list:	statement '\n'
-	|	statement_list statement '\n'
-	;
-
-statement:	NAME '=' expression	{ $1->value = $3; }
-	|	expression		{ printf("= %g\n", $1); }
-	;
-
-expression:	expression '+' expression { $$ = $1 + $3; }
-	|	expression '-' expression { $$ = $1 - $3; }
-	|	expression '*' expression { $$ = $1 * $3; }
-	|	expression '/' expression
-				{	if($3 == 0.0)
-						yyerror("divide by zero");
-					else
-						$$ = $1 / $3;
-				}
-	|	'-' expression %prec UMINUS	{ $$ = -$2; }
-	|	'(' expression ')'	{ $$ = $2; }
-	|	NUMBER
-	|	NAME			{ $$ = $1->value; }
-	|	NAME '(' expression ')'	{
-			if($1->funcptr)
-				$$ = ($1->funcptr)($3);
-			else {
-				printf("%s not a function\n", $1->name);
-				$$ = 0.0;
-			}
-		}
-	;
-%%
-
-// TODO: move all these to somewhere else.
-// update: nuke these, you wont be needing this for AST and the codegen  
-struct symtab *
-symlook(char *s) 
-{
-	char *p;
-	struct symtab *sp;
-	
-	for(sp = symtab; sp < &symtab[NSYMS]; sp++) 
-	{	
-		if(sp->name && !strcmp(sp->name, s))
-			return sp;	
-		if(!sp->name) {
-			sp->name = strdup(s);
-			return sp;
-		}
-	}
-	yyerror("Too many symbols");
-	exit(1);	
-}
-
-int
-addfunc(char* name, 
-	double (*func)()) 
-{
-	struct symtab *sp = symlook(name);
-	sp->funcptr = func;
-}
-
-int 
-parse()
-{
-	extern double sqrt(), exp(), log();
-
-	addfunc("sqrt", sqrt);
-	addfunc("exp", exp);
-	addfunc("log", log);
-	yyparse();
-}
+statement_list:	T_I8 IDENTIFER '=' INT ;
+%% 
