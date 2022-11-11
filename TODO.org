@@ -1,4 +1,0 @@
-* TODO project λδ  
-  - [X] Make proper test units   
-  - [ ] Complete the tokenizer  
-  - [ ] Complete the grammar definition and parser 

@@ -1,3 +1,4 @@
+gitk
 target/
 include/grammar.h
 src/grammar.c

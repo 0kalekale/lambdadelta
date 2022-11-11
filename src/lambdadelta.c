@@ -20,7 +20,7 @@
 */
 #include <error.h>
 
-void yyparse(); // define this in some header?
+void yyparse(); 
 
 int 
 main()
