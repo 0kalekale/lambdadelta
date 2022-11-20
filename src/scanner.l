@@ -22,8 +22,9 @@
 
 %}
 %option yylineno  
+alpha [a-zA-Z]
+digit [0-9]
 %%
-
 %{
 /*
 signed int types
@@ -102,15 +103,11 @@ lambda function and procedure keywords
 "\\"		{ return T_LAMBDA; } 
 "proc"		{ return T_PROC; }
 
-([0-9]+|([0-9]*\.[0-9]+)([eE][-+]?[0-9]+)?) {
-		return INT;
-	}
+{digit}+ return INT;
 
 [ \t]	;		 
-	
-[A-Za-z][A-Za-z0-9]*	{	
-		return IDENTIFER;
-	}
+
+{alpha}({alpha}|{digit})* return IDENTIFER;
 
 "$"	{ return 0; }
 

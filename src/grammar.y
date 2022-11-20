@@ -38,14 +38,77 @@ int yylex(); // define this in some header?
 %token T_PLUS T_MINUS T_ASTRK T_FSLASH T_EXPONENET
 %token T_BITW_OR T_BITW_AND  
 %token T_STR T_CHAR
-%token T_LAMBDA T_PROC	
+%token T_LAMBDA T_PROC
+%token INT IDENTIFER	
 // bison mode's broken forced indentation is getting really annoying at this point 
-%token INT IDENTIFER 
-%left '-' '+'
-%left '*' '/'
-%nonassoc UMINUS
+
 
 // TOOD: grammer rules
+// TODO: fix typos			
 %%
-statement_list:	T_I8 IDENTIFER '=' INT ;
+start: function
+	|	declaration
+	;
+declaration: type assignment ';'
+	|      	assignment ';'
+	|	functioncall ';'
+	|	error 
+	;
+assignment:	IDENTIFER '='  assignment
+	|	IDENTIFER '=' functioncall
+	|	IDENTIFER ',' assignment
+	|	INT ',' assignment
+	|	IDENTIFER '+' assignment
+	|	IDENTIFER '-' assignment
+	|	IDENTIFER '*' assignment
+	|	IDENTIFER '/' assignment
+	|	INT '+' assignment
+	|	INT '-' assignment
+	|	INT  '*' assignment
+	|	INT '/' assignment
+	|	'\'' assignment '\''
+	|	'(' assignment ')'
+	|	'-' assignment ')'
+	|	'-' '(' assignment ')'
+	|	'-' INT
+	|	INT
+	|	IDENTIFER
+	;
+functioncall:	 IDENTIFER'('')' ';' {printf("function: %s called", $1);}
+	|	IDENTIFER'('assignment')' ';' 
+	;
+function: T_PROC IDENTIFER '('args')'':' type cstm
+	;
+cstm:		'{' stm '}'
+	|	';'
+	;
+args:		arglist
+	|	
+	;
+arglist:	arglist ',' arg
+	|	arg
+	;
+arg:	      	type IDENTIFER
+	;
+stm:		stm st 
+	|
+	;
+st:	    	declaration
+	|	ifst
+	|	';' {printf("; reached\n");}
+	;
+type:		T_I32
+	|	T_U32
+	|	T_U8
+	|	T_VOID	
+	;
+ifst:		T_IF	 '('expr ')' '{'stm'}'
+	;
+expr:
+	|	expr T_RIGHT_AB expr
+	|	expr T_LEFT_AB expr
+	|	expr T_EQUALCMP expr
+	|	expr T_N_EQUALCMP expr
+	|	assignment
+	;
 %% 
