@@ -1,5 +1,3 @@
 gitk
 target/
-src/grammar.h
-src/grammar.c
-src/scanner.c
+src/__pycache__/
